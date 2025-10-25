@@ -1,0 +1,38 @@
+### 📌 Récupérer toutes les dépenses
+GET http://localhost:3000/expenses
+Accept: application/json
+
+###
+
+### 📌 Reset tt les ddépense
+POST http://localhost:3000/expenses/reset
+Accept: application/json
+
+
+### 📌 Ajouter une nouvelle dépense
+POST http://localhost:3000/expenses
+Content-Type: application/json
+Accept: application/json
+
+{
+  "date": "2025-09-25",
+  "description": "Courses",
+  "payer": "Alice",
+  "amount": 50
+}
+
+###
+
+### 📌 Ajouter une autre dépense
+POST http://localhost:3000/expenses
+Content-Type: application/json
+Accept: application/json
+
+{
+  "date": "2025-09-25",
+  "description": "Cinéma",
+  "payer": "Bob",
+  "amount": 20
+}
+
+###

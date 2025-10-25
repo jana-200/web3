@@ -1,0 +1,61 @@
+form {
+  background-color: #1e1e1e; /* Fond sombre */
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px; /* largeur max pour desktop */
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap; /* champs sur plusieurs lignes si besoin */
+  gap: 20px; /* espacement entre les champs */
+}
+
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #e0e0e0; /* texte clair */
+}
+
+.field-group {
+  display: flex;
+  flex: 1 1 calc(50% - 20px); /* 50% de la ligne avec gap */
+  flex-direction: column;
+  min-width: 250px; /* largeur min sur mobile */
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #555;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: #2a2a2a; /* champ sombre */
+  color: #e0e0e0;
+}
+
+form input:focus {
+  border-color: #64b5f6;
+  outline: none;
+  box-shadow: 0 0 5px rgba(100, 181, 246, 0.5);
+}
+
+form button {
+  background-color: #64b5f6; /* bleu clair */
+  color: #ffffff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+form button:hover {
+  background-color: #42a5f5; /* bleu plus foncé au hover */
+}

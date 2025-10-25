@@ -1,0 +1,75 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;              /* affichage horizontal */
+  gap: 1.5rem;                /* espacement entre cartes */
+  overflow-x: auto;           /* scroll horizontal si déborde */
+  padding-bottom: 1rem;       /* espace sous les cartes */
+}
+
+ul::-webkit-scrollbar {
+  height: 8px;                /* hauteur de la barre de scroll */
+}
+
+ul::-webkit-scrollbar-thumb {
+  background-color: #555;     /* couleur de la barre de scroll */
+  border-radius: 4px;
+}
+
+ul::-webkit-scrollbar-track {
+  background-color: #1e1e1e;  /* fond du track */
+}
+
+/* Chaque carte */
+.expense-item {
+  min-width: 280px;           /* largeur minimale pour la carte */
+  flex-shrink: 0;             /* empêche la carte de rétrécir */
+  background-color: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align: left;
+}
+
+.expense-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+}
+
+.expense-item strong {
+  font-size: 1.2rem;
+  color: #64b5f6;
+}
+
+.expense-item div {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #b0b0b0;
+}
+
+.expense-item div:last-child {
+  font-weight: bold;
+  color: #ef5350;
+}
+
+
+@media (max-width: 600px) {
+  ul {
+    grid-template-columns: 1fr;
+  }
+}

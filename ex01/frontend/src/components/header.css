@@ -1,0 +1,39 @@
+/* Header fixe en haut */
+.header {
+    background-color: #1f1f1f; /* fond sombre pour dark mode */
+    color: #e0e0e0;            /* texte clair */
+    text-align: center;
+    padding: 1rem 2rem;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    display: flex;
+    justify-content: space-evenly; /* espace entre les éléments */
+    align-items: center;            /* centrer verticalement */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* légère ombre */
+    z-index: 1000;                  /* toujours au-dessus */
+}
+
+/* Texte ou titre du header */
+.header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #64b5f6; /* accent bleu clair */
+}
+
+/* Liens ou boutons dans le header */
+.header a, .header button {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.header a:hover, .header button:hover {
+    color: #64b5f6; /* accent bleu au survol */
+}
