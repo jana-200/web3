@@ -1,63 +1,53 @@
 import React, { useEffect, useState } from "react";
 import ExpenseItem from "../components/ExpenseItem";
-import type { Expense } from "../types/Expense";
+import type { Expense, NewExpense } from "../types/Expense";
 import AddExpenseButton from "../components/AddExpenseButton";
 import ResetExpensesButton from "../components/ResetExpensesButton";
-
+import AddExpenseForm from "../components/AddExpenseForm";
 
 const Home: React.FC = () => {
-  const host = import.meta.env.VITE_API_URL || 'http://unknown-api-url.com';
+  const host = import.meta.env.VITE_API_URL || "http://localhost:3000";
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [showForm, setShowForm] = useState(false);
 
-    const [expenses, setExpenses] = useState<Expense[]>([]);
-
-    useEffect(() => {
+  // 🔹 Récupération initiale des dépenses
+  useEffect(() => {
     const fetchExpenses = async () => {
       try {
         const response = await fetch(`${host}/expenses`);
         const data = await response.json();
-        console.log("Fetched expenses:", data);
-        setExpenses(data);
+        setExpenses(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching expenses:", error);
-      }  
+      }
     };
-
     fetchExpenses();
   }, []);
 
-  const handleAdd = async (newExpense: Expense) => {
-    setExpenses(prev => [...prev, newExpense]);
-    try{ 
-      const response =  await fetch(`${host}/expenses`, {
+  // 🔹 Ajout d’une dépense
+  const handleAdd = async (newExpense: NewExpense) => {
+    try {
+      const response = await fetch(`${host}/expenses`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newExpense),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to add expense");
-      }
-
+      if (!response.ok) throw new Error("Failed to add expense");
       const addedExpense = await response.json();
-      setExpenses(prev => [...prev, addedExpense]);
+      setExpenses((prev) => [...prev, addedExpense]);
+      setShowForm(false);
     } catch (error) {
       console.error("Error adding expense:", error);
     }
-  }
+  };
 
+  // 🔹 Reset des dépenses
   const handleReset = async () => {
     try {
-      const response = await fetch(`${host}/expenses/reset`, {
-        method: "POST",
-      });
-      const data=await response.json();
-      console.log("Reset expenses:", data);
-      if (!response.ok) {
-        throw new Error("Failed to reset expenses");
-      }
-
+      const response = await fetch(`${host}/expenses/reset`, { method: "POST" });
+      if (!response.ok) throw new Error("Failed to reset expenses");
+      const data = await response.json();
       setExpenses(data);
     } catch (error) {
       console.error("Error resetting expenses:", error);
@@ -66,17 +56,25 @@ const Home: React.FC = () => {
 
   return (
     <div>
-        <h2>Mes dépenses</h2>
-        <ul className="expense-list">
-      {expenses.map((expense) => (
-        <ExpenseItem key={expense.id} expense={expense} />
-      ))}
-        </ul>
+      <h2>Mes dépenses</h2>
 
-      <AddExpenseButton handleAdd={handleAdd} />
+      <ul className="expense-list">
+        {expenses.map((expense) => (
+          <ExpenseItem key={expense.id} expense={expense} />
+        ))}
+      </ul>
+
       <ResetExpensesButton handleReset={handleReset} />
+
+      {showForm ? (
+        <AddExpenseForm
+          onExpenseAdded={handleAdd}
+        />
+      ) : (
+        <AddExpenseButton onClick={() => setShowForm(true)} />
+      )}
+
     </div>
-    
   );
 };
 

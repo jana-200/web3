@@ -1,63 +1,59 @@
-import React, { useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import type { NewExpense } from "../types/Expense";
-import './AddExpenseForm.css'
+import './AddExpenseForm.css';
 
 interface AddExpenseProps {
-    onExpenseAdded: (expense: NewExpense) => void;
+  onExpenseAdded: (expense: NewExpense) => void;
 }
 
-const AddExpenseForm = ({onExpenseAdded}: AddExpenseProps) => {
-  const [description, setDescription] = useState("");
-  const [amount, setAmount] = useState<number | "">("");
-  const [payer, setPayer] = useState("");
+interface FormInputs {
+  description: string;
+  payer: string;
+  amount: number;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onExpenseAdded({
-      description,
-      amount: amount === "" ? 0 : amount,
-      payer,
-      date: new Date().toISOString().split('T')[0],
-    });
-      
+const AddExpenseForm = ({ onExpenseAdded }: AddExpenseProps) => {
+  const { register, handleSubmit, reset } = useForm<FormInputs>();
+
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
+    const newExpense: NewExpense = {
+      ...data,
+      date: new Date().toISOString().split("T")[0],
+    };
+
+    onExpenseAdded(newExpense);
+    reset();
   };
 
-   return (
-      <div>
-        <br />
-        <form onSubmit={handleSubmit}>
-          <div className="field-group">
-            <label>description</label>
-            <input
-              value={description}
-              type="text"
-              onChange={(e)=> setDescription(e.target.value)}
-              required
-            />
-          </div>
-          <div className="field-group">
-            <label>Payer</label>
-            <input
-              value={payer}
-              type="text"
-              onChange={(e)=> setPayer(e.target.value)}
-              required
-            />
-          </div>
-          <div className="field-group">
-            <label>Amount</label>
-            <input
-              value={amount ?? ""}
-              type="number"
-              min={1}
-              onChange={(e)=> setAmount(parseInt(e.target.value))}
-              required
-            />
-          </div>
+  return (
+    <div className="add-expense-form-container">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="field-group">
+          <label>Description</label>
+          <input {...register("description", { required: true })} />
+        </div>
+
+        <div className="field-group">
+          <label>Payer</label>
+          <input {...register("payer", { required: true })} />
+        </div>
+
+        <div className="field-group">
+          <label>Montant</label>
+          <input
+            type="number"
+            min={1}
+            step={0.01}
+            {...register("amount", { required: true, valueAsNumber: true })}
+          />
+        </div>
+
+        <div className="button-group">
           <button type="submit">Ajouter</button>
-        </form>
-      </div>
-    );
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default AddExpenseForm;
