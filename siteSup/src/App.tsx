@@ -3,8 +3,38 @@ import onepiece from "./assets/onepiece.png";
 import bleach from "./assets/bleach.png";
 import snk from "./assets/snk.png";
 import jjk from "./assets/jjk.png";
+import socket from "./VisitorTracker";
+import { useEffect } from 'react';
+
 
 export default function App() {
+
+   useEffect(() => {
+    socket.on("visitor-count", (data) => {
+      console.log("Visiteurs connectés :", data.count);
+    });
+
+    socket.on("all-locations", (data) => {
+      console.log("Toutes les positions :", data.visitors);
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((pos) => {
+        socket.emit("location", {
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+      });
+    }
+
+    socket.emit("get-all-locations");
+
+    return () => {
+      socket.off("visitor-count");
+      socket.off("all-locations");
+    };
+  }, []);
+
   const animes = [
     {
       title: "One Piece",
